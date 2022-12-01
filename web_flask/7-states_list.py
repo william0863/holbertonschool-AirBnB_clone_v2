@@ -15,7 +15,6 @@ Write a script that starts a Flask web application:
             DBStorage sorted by name (A->Z) tip
                 LI tag: description of one State: <state.id>:
                 <B><state.name></B>
-    Import this 7-dump to have some data
 """
 from models import storage
 from models import *
