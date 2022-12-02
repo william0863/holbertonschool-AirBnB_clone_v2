@@ -8,13 +8,13 @@ from models.amenity import Amenity
 
 app = Flask(__name__)
 
-
+# rm SQL Alchemy Session
 @app.teardown_appcontext
 def tear_down(self):
     """tear down app context"""
     storage.close()
 
-
+# display the HTML page
 @app.route('/hbnb_filters', strict_slashes=False)
 def show_page():
     """displays webpage
@@ -35,4 +35,4 @@ def show_page():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

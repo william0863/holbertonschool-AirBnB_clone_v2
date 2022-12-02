@@ -32,14 +32,14 @@ def all_states_with_cities_html():
     states = [st for st in storage.all('State').values()]
     return(render_template('8-cities_by_states.html', states=states))
 
-
+# display the HTML page
 @app.route('/states')
 def states():
     """access File/DB Storage for all State objects and render to HTML"""
     states = [st for st in storage.all('State').values()]
     return render_template('7-states_list.html', states=states)
 
-
+# rm SQL Alchemy Session
 @app.teardown_appcontext
 def teardown_db(exception):
     """Closes the database again at the end of the request."""
@@ -47,4 +47,4 @@ def teardown_db(exception):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

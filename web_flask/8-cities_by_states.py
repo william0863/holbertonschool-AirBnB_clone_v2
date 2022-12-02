@@ -28,14 +28,14 @@ from models import storage
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-
+# display the HTML page
 @app.route('/cities_by_states')
 def cities_by_states():
     """list cities per related state"""
     return render_template('8-cities_by_states.html',
                            states=[c for c in storage.all('State').values()])
 
-
+# rm SQL Alchemy Session
 @app.teardown_appcontext
 def teardown_db(exception):
     """Closes the database again at the end of the request."""
@@ -44,4 +44,4 @@ def teardown_db(exception):
 
 if __name__ == '__main__':
     " ;"
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
