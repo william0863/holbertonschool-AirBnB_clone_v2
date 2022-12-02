@@ -21,7 +21,7 @@ from models import storage
 from os import getenv
 app = Flask(__name__)
 
-
+# display the HTML page
 @app.route('/states_list', strict_slashes=False)
 def states():
     """access File/DB Storage for all State objects and render to HTML"""
@@ -29,7 +29,7 @@ def states():
     return render_template('7-states_list.html',
                            states=[st for st in storage.all('State').values()])
 
-
+# rm SQL Alchemy Session
 @app.teardown_appcontext
 def teardown_db(exception):
     """Closes the database again at the end of the request."""
