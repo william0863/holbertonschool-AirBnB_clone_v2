@@ -39,11 +39,7 @@ class FileStorage:
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
-        from models.state        'Review': Review
-                  }
-        try:
-            temp = {}
-     import State
+        from models.state import State
         from models.city import City
         from models.amenity import Amenity
         from models.review import Review
@@ -51,12 +47,17 @@ class FileStorage:
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
-                    with open(FileStorage.__file_path, 'r') as f:
+                    'Review': Review
+                  }
+        try:
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
     def delete(self, obj=None):
         """Delete a given object from __objects, if it exists."""
         try:
@@ -67,5 +68,3 @@ class FileStorage:
     def close(self):
         """Call the reload method."""
         self.reload()
-
-

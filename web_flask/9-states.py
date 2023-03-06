@@ -1,50 +1,40 @@
 #!/usr/bin/python3
+"""Starts a Flask web application.
+The application listens on 0.0.0.0, port 5000.
+Routes:
+    /states: HTML page with a list of all State objects.
+    /states/<id>: HTML page displaying the given state with <id>.
 """
-Your web application must be listening on 0.0.0.0, port 5000
-You must use storage for fetching data from the storage engine
-(FileStorage or DBStorage) => from models import storage and storage.all(...)
-"""
-from flask import Flask, render_template
 from models import storage
-
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 
-@app.route('/states/<id>')
-def state_and_id(id=None):
-    """list cities and states"""
-
-    states = [st for st in storage.all('State').values()]
-    match_st = None
-    if id:
-        for st in states:
-            if st.id == id:
-                match_st = st
-    return render_template('9-states.html', state=match_st)
-
-
-@app.route('/cities_by_states', strict_slashes=False)
-def all_states_with_cities_html():
-    """ all states and cities"""
-
-    states = [st for st in storage.all('State').values()]
-    return(render_template('8-cities_by_states.html', states=states))
-
-# display the HTML page
-@app.route('/states')
+@app.route("/states", strict_slashes=False)
 def states():
-    """access File/DB Storage for all State objects and render to HTML"""
-    states = [st for st in storage.all('State').values()]
-    return render_template('7-states_list.html', states=states)
+    """Displays an HTML page with a list of all States.
+    States are sorted by name.
+    """
+    states = storage.all("State")
+    return render_template("9-states.html", state=states)
 
-# rm SQL Alchemy Session
+
+@app.route("/states/<id>", strict_slashes=False)
+def states_id(id):
+    """Displays an HTML page with info about <id>, if it exists."""
+    for state in storage.all("State").values():
+        if state.id == id:
+            return render_template("9-states.html", state=state)
+    return render_template("9-states.html")
+
+
 @app.teardown_appcontext
-def teardown_db(exception):
-    """Closes the database again at the end of the request."""
+def teardown(exc):
+    """Remove the current SQLAlchemy session."""
     storage.close()
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
